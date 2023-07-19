@@ -1,13 +1,21 @@
 package nl.novi.sowtheland.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table (name = "Crops")
 public class Crop {
+
+    @Id
+    @GeneratedValue
+    private Long cropId;
+    private String cropName;
+    private String cropType;
+    private String description;
+    @ManyToOne
+    private Garden garden;
     public Long getCropId() {
         return cropId;
     }
@@ -40,10 +48,4 @@ public class Crop {
         this.description = description;
     }
 
-    @Id
-    @GeneratedValue
-    private Long cropId;
-    private String cropName;
-    private String cropType;
-    private String description;
 }

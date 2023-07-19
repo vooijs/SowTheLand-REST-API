@@ -1,9 +1,8 @@
 package nl.novi.sowtheland.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table (name = "gardens")
@@ -12,6 +11,11 @@ public class Garden {
     @GeneratedValue
     private Long gardenId;
     private int gardenSize;
+    @OneToOne
+    private User user;
+    @OneToMany (mappedBy = "Garden")
+
+    private List<Crop> crops;
 
     public Long getGardenId() {
         return gardenId;

@@ -38,13 +38,24 @@ public class GardenService {
         }
         return allGardens;
     }
-    public GardenDto findGardenbyId (Long gardenId){
-        Garden garden = gardenRepos.findById(gardenId).orElseThrow();
+    public ResponseEntity<GardenDto> findGardenbyId (Long gardenId){
+        Garden foundgarden = gardenRepos.findById(gardenId).get();
         GardenDto gardenDto = new GardenDto();
-        gardenDto.gardenId = garden.getGardenId();
-        gardenDto.gardenSize= garden.getGardenSize();
+        gardenDto.gardenId = foundgarden.getGardenId();
+        gardenDto.gardenSize = foundgarden.getGardenSize();
 
-        return gardenDto;
+
+        return ResponseEntity.ok(gardenDto);
+    }
+    public Long updateGarden(GardenDto gardenDto, Long gardenId){
+        Garden garden = gardenRepos.findById(gardenId).get();
+        garden.setGardenSize(gardenDto.gardenSize);
+        gardenRepos.save(garden);
+        return garden.getGardenId();
+    }
+    public ResponseEntity<?> deleteGarden (Long gardenId){
+        gardenRepos.deleteById(gardenId);
+        return ResponseEntity.ok("deleted");
     }
 
 }

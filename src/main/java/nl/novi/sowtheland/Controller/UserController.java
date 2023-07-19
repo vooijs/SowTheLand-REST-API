@@ -32,4 +32,14 @@ public class UserController {
     public ResponseEntity <UserDto> getUser (@RequestParam String email){
         return ResponseEntity.ok(userService.getUser(email));
     }
+    @PutMapping("/update/{userId}")
+    public ResponseEntity<UserDto> updateUser (@PathVariable Long userId, @RequestBody UserDto userDto ){
+        userService.updateUser(userDto, userId);
+        return ResponseEntity.ok(userDto);
+    }
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<?> deleteUser (@PathVariable Long userId){
+        userService.deleteUser(userId);
+        return ResponseEntity.ok("User was deleted succesfully");
+    }
 }

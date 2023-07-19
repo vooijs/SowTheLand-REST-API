@@ -31,4 +31,15 @@ public class CropController {
         return ResponseEntity.ok(cropService.findCropByName(cropName));
     }
 
+    @PutMapping("/update/{cropId}")
+    public ResponseEntity<CropDto> updateCrop (@PathVariable Long cropId, @RequestBody CropDto cropDto ){
+        cropService.updateCrop(cropDto, cropId);
+        return ResponseEntity.ok(cropDto);
+    }
+    @DeleteMapping("/delete/{cropId}")
+    public ResponseEntity<?> deleteCrop (@PathVariable Long cropId){
+        cropService.deleteCrop(cropId);
+                return ResponseEntity.ok("crop was deleted");
+    }
+
 }

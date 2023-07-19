@@ -1,9 +1,6 @@
 package nl.novi.sowtheland.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table (name = "Users")
@@ -13,6 +10,8 @@ public class User {
     private Long userId;
     private String userName;
     private String email;
+    @OneToOne
+    private Garden garden;
 
     public Long getUserId() {
         return userId;

@@ -54,5 +54,18 @@ public class CropService {
 
             return foundCrop;
         }
+        public Long updateCrop (CropDto cropDto, Long cropId){
+        Crop crop = cropRepos.findById(cropId).get();
+         crop.setCropName(cropDto.cropName);
+         crop.setCropType(cropDto.cropType);
+         crop.setDescription(cropDto.description);
+
+         cropRepos.save(crop);
+         return crop.getCropId();
+        }
+        public ResponseEntity<?> deleteCrop (Long cropId){
+        cropRepos.deleteById(cropId);
+        return ResponseEntity.ok("crop was deleted");
+        }
     }
 

@@ -57,6 +57,20 @@ public class UserService {
 
         return foundUser;
     }
+    public Long updateUser (UserDto userDto,Long userId){
+        User user =userRepos.findById(userId).get();
+
+        user.setUserName(userDto.userName);
+        user.setEmail(userDto.email);
+        user.setPassword(userDto.password);
+
+        userRepos.save(user);
+        return user.getUserId();
+    }
+    public ResponseEntity<?> deleteUser (Long userid){
+         userRepos.deleteById(userid);
+         return (ResponseEntity<?>) ResponseEntity.ok();
+    }
 
 
 }

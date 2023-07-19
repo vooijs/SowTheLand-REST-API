@@ -28,10 +28,20 @@ public class GardenController {
     public List<GardenDto> getAllGardens(){
         return gardenService.getAllGardens();
     }
-    @GetMapping("/seach/{gardenId}")
-    public ResponseEntity<GardenDto > findGardenById (@PathVariable Long gardenId){
-        return ResponseEntity.ok(gardenService.findGardenbyId(gardenId));
+    @GetMapping("/search/{gardenId}")
+    public ResponseEntity<GardenDto> findGardenById (@PathVariable Long gardenId){
+        return gardenService.findGardenbyId(gardenId);
     }
+    @PutMapping("/update/{gardenId}")
+    public ResponseEntity<GardenDto> updateGarden (@PathVariable Long gardenId,@RequestBody GardenDto gardenDto){
+        gardenService.updateGarden(gardenDto, gardenId);
+        return ResponseEntity.ok(gardenDto);
+    }
+@DeleteMapping("/delete/{gardenId}")
+    public ResponseEntity<?> deleteGarden (@PathVariable Long gardenId){
+        gardenService.deleteGarden(gardenId);
+        return ResponseEntity.ok("garden was deleted");
+}
 
 
 }
