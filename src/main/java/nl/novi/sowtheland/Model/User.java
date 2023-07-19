@@ -10,7 +10,8 @@ public class User {
     private Long userId;
     private String userName;
     private String email;
-    @OneToOne
+    private String password;
+    @OneToOne (cascade = CascadeType.ALL)
     private Garden garden;
 
     public Long getUserId() {
@@ -45,5 +46,5 @@ public class User {
         this.password = password;
     }
 
-    private String password;
+
 }

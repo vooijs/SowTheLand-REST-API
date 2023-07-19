@@ -2,7 +2,9 @@ package nl.novi.sowtheland.Service;
 
 import nl.novi.sowtheland.Dto.CropDto;
 import nl.novi.sowtheland.Model.Crop;
+import nl.novi.sowtheland.Model.Garden;
 import nl.novi.sowtheland.Repository.CropRepository;
+import nl.novi.sowtheland.Repository.GardenRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,8 +15,11 @@ import java.util.List;
 @Service
 public class CropService {
     private final CropRepository cropRepos;
-    public CropService (CropRepository cropRepos){
+    private GardenRepository gardenRepos;
+
+    public CropService (CropRepository cropRepos, GardenRepository gardeRepos){
         this.cropRepos = cropRepos;
+        this.gardenRepos = gardenRepos;
     }
     public ResponseEntity <Long> createCrop (CropDto cropDto){
         Crop crop = new Crop();
@@ -23,6 +28,10 @@ public class CropService {
         crop.setCropName(cropDto.cropName);
         crop.setCropType(cropDto.cropType);
         crop.setDescription(cropDto.description);
+
+        Garden garden = gardenRepos.findById(cropDto.gardenId).get();
+        crop.setGarden(garden);
+
 
         cropRepos.save(crop);
 
@@ -39,6 +48,7 @@ public class CropService {
             cropDto.cropName = crop.getCropName();
             cropDto.cropType = crop.getCropType();
             cropDto.description = crop.getDescription();
+            cropDto.gardenId = crop.getGarden().getGardenId();
             allCrops.add(cropDto);
         }
         return allCrops;

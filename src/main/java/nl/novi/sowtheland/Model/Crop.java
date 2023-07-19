@@ -14,6 +14,7 @@ public class Crop {
     private String cropName;
     private String cropType;
     private String description;
+
     @ManyToOne
     private Garden garden;
     public Long getCropId() {
@@ -47,5 +48,11 @@ public class Crop {
     public void setDescription(String description) {
         this.description = description;
     }
+    public Garden getGarden() {
+        return garden;
+    }
 
+    public void setGarden(Garden garden) {
+        this.garden = garden;
+    }
 }

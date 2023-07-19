@@ -11,9 +11,9 @@ public class Garden {
     @GeneratedValue
     private Long gardenId;
     private int gardenSize;
-    @OneToOne
+    @OneToOne (cascade = CascadeType.ALL)
     private User user;
-    @OneToMany (mappedBy = "Garden")
+    @OneToMany (mappedBy = "garden")
 
     private List<Crop> crops;
 

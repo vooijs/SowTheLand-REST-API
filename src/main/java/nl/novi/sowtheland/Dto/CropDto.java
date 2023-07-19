@@ -5,4 +5,6 @@ public class CropDto {
     public String cropName;
     public String cropType;
     public String description;
+    public Long gardenId;
+
 }
