@@ -1,6 +1,6 @@
 package nl.novi.sowtheland.Service;
-
 import nl.novi.sowtheland.Dto.UserDto;
+import nl.novi.sowtheland.Model.Role;
 import nl.novi.sowtheland.Model.User;
 import nl.novi.sowtheland.Repository.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -25,6 +25,7 @@ public class UserService {
         user.setUserName(userDto.userName);
         user.setEmail(userDto.email);
         user.setPassword(userDto.password);
+        user.setRole(Role.USER);
 
         userRepos.save(user);
 
@@ -39,7 +40,7 @@ public class UserService {
           UserDto userDto = new UserDto();
 
           userDto.userId = user.getUserId();
-          userDto.userName = user.getUserName();
+          userDto.userName = user.getUsername();
           userDto.email = user.getEmail();
           userDto.password = user.getPassword();
           allUsers.add(userDto);
@@ -47,11 +48,11 @@ public class UserService {
         return allUsers;
     }
     public UserDto getUser(String email){
-        User user = userRepos.findUserByEmail(email);
+        User user =userRepos.findUserByEmail(email);
 
         UserDto foundUser = new UserDto();
         foundUser.userId = user.getUserId();
-        foundUser.userName = user.getUserName();
+        foundUser.userName = user.getUsername();
         foundUser.email = user.getEmail();
         foundUser.password = user.getPassword();
 

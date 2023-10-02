@@ -1,5 +1,5 @@
 package nl.novi.sowtheland.Dto;
-;
+
 
 public class UserDto {
     public Long userId;

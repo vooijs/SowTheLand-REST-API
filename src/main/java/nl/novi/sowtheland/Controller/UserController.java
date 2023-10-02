@@ -28,7 +28,6 @@ public class UserController {
         return userService.getAllUsers();
     }
     @GetMapping("/search")
-
     public ResponseEntity <UserDto> getUser (@RequestParam String email){
         return ResponseEntity.ok(userService.getUser(email));
     }
