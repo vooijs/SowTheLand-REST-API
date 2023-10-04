@@ -1,21 +1,25 @@
 package nl.novi.sowtheland.Controller;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import nl.novi.sowtheland.Dto.UserDto;
 import nl.novi.sowtheland.Service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+@Data
+@AllArgsConstructor
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
-    private UserController(UserService userService){
-        this.userService = userService;
-    }
+    private final PasswordEncoder encoder;
+
     @PostMapping
     public ResponseEntity<Object> createUser (@RequestBody UserDto userDto){
         Long newUserId = userService.createUser(userDto).getBody();

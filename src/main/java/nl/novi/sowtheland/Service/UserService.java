@@ -1,34 +1,49 @@
 package nl.novi.sowtheland.Service;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import nl.novi.sowtheland.Dto.UserDto;
+import nl.novi.sowtheland.Model.Role;
 import nl.novi.sowtheland.Model.User;
+import nl.novi.sowtheland.Repository.RoleRepository;
 import nl.novi.sowtheland.Repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+@Data
+@AllArgsConstructor
 
 @Service
 public class UserService {
     private final UserRepository userRepos;
-
-    public UserService (UserRepository userRepos){
-        this.userRepos = userRepos;
-    }
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder encoder;
 
     public ResponseEntity <Long> createUser (UserDto userDto) {
-        User user = new User();
+        User newUser = new User();
 
-        user.setUserId(userDto.userId);
-        user.setUserName(userDto.userName);
-        user.setEmail(userDto.email);
-        user.setPassword(userDto.password);
+        newUser.setUserId(userDto.userId);
+        newUser.setUserName(userDto.userName);
+        newUser.setEmail(userDto.email);
+        newUser.setPassword(encoder.encode(userDto.password));
+        newUser.setGarden(userDto.garden);
 
-        userRepos.save(user);
+        List<Role> userRoles = new ArrayList<>();
+        for (String rolename : userDto.roles) {
+            Optional<Role> or = roleRepository.findById("Role_" + rolename);
+            userRoles.add(or.get());
+        }
+        newUser.setRoles(userRoles);
 
-        return new ResponseEntity<>(user.getUserId(), HttpStatus.CREATED);
+        userRepos.save(newUser);
+
+        return new ResponseEntity<>(newUser.getUserId(), HttpStatus.CREATED);
     }
 
     public List<UserDto> getAllUsers (){

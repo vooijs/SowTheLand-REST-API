@@ -1,37 +1,35 @@
 package nl.novi.sowtheland.Service;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import nl.novi.sowtheland.Dto.CropDto;
 import nl.novi.sowtheland.Model.Crop;
-import nl.novi.sowtheland.Model.Garden;
 import nl.novi.sowtheland.Repository.CropRepository;
-import nl.novi.sowtheland.Repository.GardenRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+@Data
+@AllArgsConstructor
 
 @Service
 public class CropService {
     private final CropRepository cropRepos;
-    private GardenRepository gardenRepos;
 
-    public CropService (CropRepository cropRepos, GardenRepository gardeRepos){
-        this.cropRepos = cropRepos;
-        this.gardenRepos = gardenRepos;
-    }
+
+
     public ResponseEntity <Long> createCrop (CropDto cropDto){
         Crop crop = new Crop();
 
         crop.setCropId(cropDto.cropId);
         crop.setCropName(cropDto.cropName);
         crop.setCropType(cropDto.cropType);
-        crop.setDescription(cropDto.description);
-
-        Garden garden = gardenRepos.findById(cropDto.gardenId).get();
-        crop.setGarden(garden);
-
+        crop.setPosition(cropDto.position);
+        crop.setBeginPlantingPeriod(cropDto.beginPlantingPeriod);
+        crop.setEndPlantingPeriod(cropDto.endPlantingPeriod);
+        crop.setWatering(cropDto.watering);
 
         cropRepos.save(crop);
 
@@ -47,8 +45,10 @@ public class CropService {
             cropDto.cropId = crop.getCropId();
             cropDto.cropName = crop.getCropName();
             cropDto.cropType = crop.getCropType();
-            cropDto.description = crop.getDescription();
-            cropDto.gardenId = crop.getGarden().getGardenId();
+            cropDto.position = crop.getPosition();
+            cropDto.beginPlantingPeriod = crop.getBeginPlantingPeriod();
+            cropDto.endPlantingPeriod = crop.getEndPlantingPeriod();
+            cropDto.watering = crop.getWatering();
             allCrops.add(cropDto);
         }
         return allCrops;
@@ -60,7 +60,10 @@ public class CropService {
             foundCrop.cropId = crop.getCropId();
             foundCrop.cropName = crop.getCropType();
             foundCrop.cropType = crop.getCropType();
-            foundCrop.description = crop.getDescription();
+            foundCrop.position = crop.getPosition();
+            foundCrop.beginPlantingPeriod = crop.getBeginPlantingPeriod();
+            foundCrop.endPlantingPeriod = crop.getEndPlantingPeriod();
+            foundCrop.watering = crop.getWatering();
 
             return foundCrop;
         }
@@ -68,7 +71,10 @@ public class CropService {
         Crop crop = cropRepos.findById(cropId).get();
          crop.setCropName(cropDto.cropName);
          crop.setCropType(cropDto.cropType);
-         crop.setDescription(cropDto.description);
+         crop.setPosition(cropDto.position);
+         crop.setBeginPlantingPeriod(cropDto.beginPlantingPeriod);
+         crop.setEndPlantingPeriod(cropDto.endPlantingPeriod);
+         crop.setWatering(cropDto.watering);
 
          cropRepos.save(crop);
          return crop.getCropId();
